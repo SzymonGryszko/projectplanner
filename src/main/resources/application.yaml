@@ -1,0 +1,28 @@
+app:
+    auth:
+        tokeExpirationMsec: ${TOKEN_EXPIRATION}
+        tokenSecret: ${SECRET}
+spring:
+    datasource:
+        password: ${PASSWORD}
+        url: jdbc:mysql://localhost:3306/projectplanner?serverTimezone=Europe/Warsaw
+        username: ${USERNAME}
+    jpa:
+        hibernate:
+            ddl-auto: create
+    security:
+        oauth2:
+            client:
+                registration:
+                    github:
+                        client-id: ${GITHUB_CLIENT_ID}
+                        client-secret: ${GITHUB_CLIENT_SECRET}
+                        scope:
+                            - email
+                            - profile
+                    google:
+                        client-id: ${GOOGLE_CLIENT_ID}
+                        client-secret: ${GOOGLE_CLIENT_SECRET}
+                        scope:
+                        - email
+                        - profile
