@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.Instant;
 
 
 @Entity
@@ -23,22 +24,13 @@ public class User {
     private Long id;
     @Column(nullable = false)
     private String name;
-
     @Email
     @Column(nullable = false)
     private String email;
-
     private String imageUrl;
-
-    @Column(nullable = false)
-    private Boolean emailVerified = false;
-
-    @JsonIgnore
-    private String password;
-
+    private Instant created;
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
-    private String providerId;
 }
