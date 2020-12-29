@@ -4,22 +4,28 @@ app:
         tokenSecret: ${SECRET}
 spring:
     datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
         password: ${PASSWORD}
         url: jdbc:mysql://localhost:3306/projectplanner?serverTimezone=Europe/Warsaw
         username: ${USERNAME}
+        initialize: true
     jpa:
+        generate-ddl: true
+        show-sql: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
+        properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
     security:
         oauth2:
             client:
                 registration:
-                    github:
-                        client-id: ${GITHUB_CLIENT_ID}
-                        client-secret: ${GITHUB_CLIENT_SECRET}
-                        scope:
-                            - email
-                            - profile
+#                    github:
+#                        client-id: ${GITHUB_CLIENT_ID}
+#                        client-secret: ${GITHUB_CLIENT_SECRET}
+#                        scope:
+#                            - email
+#                            - profile
                     google:
                         client-id: ${GOOGLE_CLIENT_ID}
                         client-secret: ${GOOGLE_CLIENT_SECRET}
