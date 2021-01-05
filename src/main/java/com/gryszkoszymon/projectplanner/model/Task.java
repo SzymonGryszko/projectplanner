@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 
@@ -20,17 +21,15 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long taskId;
     private String title;
-    @OneToOne
-    private Column column;
-    @OneToMany(fetch = LAZY)
+    @OneToMany(fetch = LAZY, cascade = CascadeType.ALL)
     private List<Comment> comments;
     private Instant startDate;
     private Instant dueDate;
-    @OneToMany(fetch = LAZY)
+    @OneToMany(fetch = EAGER, cascade = CascadeType.ALL)
     private List<User> assignedUsers;
     @Enumerated(value = EnumType.STRING)
     private TaskStatus taskStatus;
-    @OneToMany(fetch = LAZY)
+    @OneToMany(fetch = LAZY, cascade = CascadeType.ALL)
     private List<CheckList> checkLists;
 
 }
