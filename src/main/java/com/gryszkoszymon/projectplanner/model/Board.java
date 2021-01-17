@@ -26,9 +26,10 @@ public class Board {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "board_col")
     private List<Column> columns;
-//    @ManyToOne(fetch = EAGER, cascade = CascadeType.ALL)
-//    private User owner;
-    @ManyToMany(mappedBy = "boardsUserIsAssignedTo", cascade = CascadeType.ALL, fetch = EAGER)
+    @OneToOne(fetch = EAGER, cascade = CascadeType.ALL)
+    private User owner;
+    @OneToMany(cascade = CascadeType.ALL, fetch = EAGER)
+    @JoinColumn(name = "board_members")
     private List<User> boardMembers;
 
 }

@@ -33,10 +33,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
     private Instant lastLoggedIn;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_board")
-    private List<Board> boardsAsCreator;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = EAGER)
-    private List<Board> boardsUserIsAssignedTo;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "owner_board")
+//    private List<Board> boardsAsCreator;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = EAGER)
+//    private List<Board> boardsUserIsAssignedTo;
 
 }

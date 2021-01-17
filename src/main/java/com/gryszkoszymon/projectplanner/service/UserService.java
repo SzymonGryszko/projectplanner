@@ -22,6 +22,7 @@ public class UserService {
 //    private final TaskService taskService;
 //    private final ColumnService columnService;
     private final BoardService boardService;
+    private final BoardRepository boardRepository;
 
     public Long setupUserAfterFirstLogin(String email, String name, String pictureURL, AuthProvider authProvider) {
         Task task = new Task();
@@ -41,11 +42,9 @@ public class UserService {
         columnDone.setTasks(new LinkedHashSet<>());
 
 
-
         Board board = new Board();
         board.setTitle("My Board");
         board.setColumns(new ArrayList<>(Arrays.asList(columnToDo, columnInProgress, columnDone)));
-        board.setBoardMembers(new ArrayList<>());
 
         User user = new User();
         user.setName(name);
@@ -55,11 +54,10 @@ public class UserService {
         user.setProvider(authProvider);
         user.setLastLoggedIn(Instant.now());
 
-        board.getBoardMembers().add(user);
+        board.setOwner(user);
+        board.setBoardMembers(new ArrayList<>(Arrays.asList(user)));
 
-        user.setBoardsUserIsAssignedTo(new ArrayList<>(Arrays.asList(board)));
-        user.setBoardsAsCreator(new ArrayList<>(Arrays.asList(board)));
-
+        boardRepository.save(board);
         User savedUser = userRepository.save(user);
 
         return savedUser.getUserId();
