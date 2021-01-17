@@ -10,17 +10,22 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/boards")
+@RequestMapping("/api/")
 public class BoardController {
 
     private final BoardService boardService;
     private final UserService userService;
 
-    @GetMapping("/{userID}")
+    @GetMapping("boards/{userID}")
     public List<Board> getAllBoardsPerUser(@PathVariable Long userID){
-//        return boardService.getAllBoardsPerUser(userID);
         return boardService.getAllBoardsPerUser(userID);
-
     }
+
+    @GetMapping("board/{boardID}")
+    public Board getAllDataForBoard(@PathVariable Long boardID){
+        return boardService.getAllDataForBoard(boardID);
+    }
+
+
 
 }

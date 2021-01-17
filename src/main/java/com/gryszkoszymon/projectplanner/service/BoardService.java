@@ -33,4 +33,12 @@ public class BoardService {
         }
         return null;
     }
+
+    public Board getAllDataForBoard(Long boardID) {
+        Optional<Board> boardOptional = boardRepository.findById(boardID);
+        if (boardOptional.isPresent()) {
+            return boardOptional.get();
+        }
+        return null;
+    }
 }
