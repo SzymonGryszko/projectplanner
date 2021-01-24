@@ -76,4 +76,10 @@ public class UserService {
         return savedUser.getUserId();
     }
 
+    public User getUserInfoById(long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) return userOptional.get();
+    return null;
+
+    }
 }

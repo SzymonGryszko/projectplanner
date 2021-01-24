@@ -1,6 +1,7 @@
 package com.gryszkoszymon.projectplanner.controlers;
 
 import com.gryszkoszymon.projectplanner.model.Board;
+import com.gryszkoszymon.projectplanner.model.Column;
 import com.gryszkoszymon.projectplanner.service.BoardService;
 import com.gryszkoszymon.projectplanner.service.UserService;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,12 @@ public class BoardController {
     public Board getAllDataForBoard(@PathVariable Long boardID){
         return boardService.getAllDataForBoard(boardID);
     }
+
+    @PostMapping("board/{boardId}/add-column")
+    public List<Column> createNewColumn(@PathVariable long boardId) {
+        return boardService.createNewColumnForBoard(boardId);
+    }
+
 
 
 

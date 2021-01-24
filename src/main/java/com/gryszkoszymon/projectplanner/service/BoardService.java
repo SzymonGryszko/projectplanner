@@ -1,6 +1,7 @@
 package com.gryszkoszymon.projectplanner.service;
 
 import com.gryszkoszymon.projectplanner.model.Board;
+import com.gryszkoszymon.projectplanner.model.Column;
 import com.gryszkoszymon.projectplanner.model.User;
 import com.gryszkoszymon.projectplanner.repository.BoardRepository;
 import com.gryszkoszymon.projectplanner.repository.UserRepository;
@@ -38,6 +39,20 @@ public class BoardService {
         Optional<Board> boardOptional = boardRepository.findById(boardID);
         if (boardOptional.isPresent()) {
             return boardOptional.get();
+        }
+        return null;
+    }
+
+    public List<Column> createNewColumnForBoard(long boardId) {
+        Optional<Board> boardOptional = boardRepository.findById(boardId);
+        if (boardOptional.isPresent()) {
+            Board board = boardOptional.get();
+            Column column = new Column();
+            column.setTitle("New Column");
+            column.setTasks(new LinkedHashSet<>());
+            boardOptional.get().getColumns().add(column);
+            Board boardWithNewColumn = boardRepository.save(board);
+            return boardWithNewColumn.getColumns();
         }
         return null;
     }
