@@ -4,6 +4,7 @@ import com.gryszkoszymon.projectplanner.model.Board;
 import com.gryszkoszymon.projectplanner.model.Column;
 import com.gryszkoszymon.projectplanner.service.BoardService;
 import com.gryszkoszymon.projectplanner.service.UserService;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,20 +16,19 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final UserService userService;
 
     @GetMapping("boards/{userID}")
-    public List<Board> getAllBoardsPerUser(@PathVariable Long userID){
+    public List<Board> getAllBoardsPerUser(@PathVariable Long userID) throws NotFoundException {
         return boardService.getAllBoardsPerUser(userID);
     }
 
     @GetMapping("board/{boardID}")
-    public Board getAllDataForBoard(@PathVariable Long boardID){
+    public Board getAllDataForBoard(@PathVariable Long boardID) throws NotFoundException {
         return boardService.getAllDataForBoard(boardID);
     }
 
     @PostMapping("board/{boardId}/add-column")
-    public List<Column> createNewColumn(@PathVariable long boardId) {
+    public List<Column> createNewColumn(@PathVariable long boardId) throws NotFoundException {
         return boardService.createNewColumnForBoard(boardId);
     }
 

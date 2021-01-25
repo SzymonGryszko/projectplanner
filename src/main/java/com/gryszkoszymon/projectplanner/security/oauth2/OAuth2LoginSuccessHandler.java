@@ -1,19 +1,12 @@
 package com.gryszkoszymon.projectplanner.security.oauth2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gryszkoszymon.projectplanner.model.AuthProvider;
 import com.gryszkoszymon.projectplanner.model.User;
-import com.gryszkoszymon.projectplanner.repository.UserRepository;
 import com.gryszkoszymon.projectplanner.service.UserService;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -29,12 +22,20 @@ import java.util.Optional;
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Autowired
-    private OAuth2AuthorizedClientService clientService;
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final RedirectStrategy redirectStrategy;
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    @Autowired
+    public OAuth2LoginSuccessHandler(UserService userService) {
+        this.userService = userService;
+        this.redirectStrategy = new DefaultRedirectStrategy();
+    }
+
+    public OAuth2LoginSuccessHandler(String defaultTargetUrl, UserService userService, RedirectStrategy redirectStrategy) {
+        super(defaultTargetUrl);
+        this.userService = userService;
+        this.redirectStrategy = redirectStrategy;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -51,7 +52,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String name = oAuth2User.getName();
         String pictureUrl = oAuth2User.getPictureURL();
         AuthProvider authProvider = AuthProvider.GOOGLE;
-        Optional<User> optionalUser = userService.findUserByEmail(oAuth2User.getEmail());
+        Optional<User> optionalUser = userService.findOptionalUserByEmail(oAuth2User.getEmail());
         if (optionalUser.isEmpty()) {
             return userService.setupUserAfterFirstLogin(email, name, pictureUrl, authProvider);
         } else {

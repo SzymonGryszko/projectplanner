@@ -1,5 +1,6 @@
 package com.gryszkoszymon.projectplanner.controlers;
 
+import com.gryszkoszymon.projectplanner.exception.NotFoundException;
 import com.gryszkoszymon.projectplanner.model.User;
 import com.gryszkoszymon.projectplanner.service.UserService;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public User getUserInfoById(@PathVariable long id) {
+    public User getUserInfoById(@PathVariable long id) throws NotFoundException {
         return userService.getUserInfoById(id);
     }
 }

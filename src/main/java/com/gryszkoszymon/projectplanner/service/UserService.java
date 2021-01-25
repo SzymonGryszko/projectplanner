@@ -1,5 +1,6 @@
 package com.gryszkoszymon.projectplanner.service;
 
+import com.gryszkoszymon.projectplanner.exception.NotFoundException;
 import com.gryszkoszymon.projectplanner.model.*;
 import com.gryszkoszymon.projectplanner.repository.BoardRepository;
 import com.gryszkoszymon.projectplanner.repository.ColumnRepository;
@@ -19,8 +20,6 @@ import java.util.*;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final TaskService taskService;
-//    private final ColumnService columnService;
     private final BoardService boardService;
     private final BoardRepository boardRepository;
 
@@ -63,7 +62,7 @@ public class UserService {
         return savedUser.getUserId();
     }
 
-    public Optional<User> findUserByEmail(String email) {
+    public Optional<User> findOptionalUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -76,10 +75,7 @@ public class UserService {
         return savedUser.getUserId();
     }
 
-    public User getUserInfoById(long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) return userOptional.get();
-    return null;
-
+    public User getUserInfoById(Long id) throws NotFoundException {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("Could not find user by id" + id));
     }
 }

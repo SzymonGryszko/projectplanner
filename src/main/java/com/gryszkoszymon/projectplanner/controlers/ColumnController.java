@@ -1,5 +1,6 @@
 package com.gryszkoszymon.projectplanner.controlers;
 
+import com.gryszkoszymon.projectplanner.exception.NotFoundException;
 import com.gryszkoszymon.projectplanner.model.Task;
 import com.gryszkoszymon.projectplanner.service.ColumnService;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ public class ColumnController {
     private final ColumnService columnService;
 
     @PostMapping("column/{columnId}/add-task")
-    public Set<Task> createNewTask(@PathVariable long columnId, @RequestBody String taskTitle) {
+    public Set<Task> createNewTask(@PathVariable long columnId, @RequestBody String taskTitle) throws NotFoundException {
         return columnService.createNewTask(columnId, taskTitle);
     }
 
