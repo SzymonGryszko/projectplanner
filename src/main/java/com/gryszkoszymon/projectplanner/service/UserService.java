@@ -24,27 +24,22 @@ public class UserService {
     private final BoardRepository boardRepository;
 
     public Long setupUserAfterFirstLogin(String email, String name, String pictureURL, AuthProvider authProvider) {
-        Task task = new Task();
-        task.setTitle("Your first test");
-
 
         Column columnToDo = new Column();
         columnToDo.setTitle("To Do");
-        columnToDo.setTasks(new LinkedHashSet<>(Arrays.asList(task)));
-        task.setParentColumn(columnToDo);
+        columnToDo.addTask(new Task("Your new task"));
 
-        Column columnInProgress = new Column();
-        columnInProgress.setTitle("In Progress");
-        columnInProgress.setTasks(new LinkedHashSet<>());
-
-        Column columnDone = new Column();
-        columnDone.setTitle("Done");
-        columnDone.setTasks(new LinkedHashSet<>());
+//        Column columnInProgress = new Column();
+//        columnInProgress.setTitle("In Progress");
+//
+//        Column columnDone = new Column();
+//        columnDone.setTitle("Done");
 
 
         Board board = new Board();
         board.setTitle("My Board");
-        board.setColumns(new ArrayList<>(Arrays.asList(columnToDo, columnInProgress, columnDone)));
+        board.setColumns(new ArrayList<>(Arrays.asList(columnToDo)));
+//        , columnInProgress, columnDone
 
         User user = new User();
         user.setName(name);

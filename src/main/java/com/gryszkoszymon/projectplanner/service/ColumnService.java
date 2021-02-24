@@ -27,7 +27,7 @@ public class ColumnService {
         Column column = columnRepository.findById(columnId).orElseThrow(() -> new NotFoundException("Could not find column with id: " + columnId));
         Task newTask = new Task();
         newTask.setTitle(taskTitle);
-        column.getTasks().add(newTask);
+        column.addTask(newTask);
         column.setColId(columnId);
         Column savedColumn = columnRepository.save(column);
         return savedColumn.getTasks();
@@ -35,9 +35,9 @@ public class ColumnService {
 
     public Set<Task> updateTasksSetAfterDrop(Long columnId, Set<Task> tasks) throws NotFoundException {
         Column column = columnRepository.findById(columnId).orElseThrow(() -> new NotFoundException("Could not find column with id: " + columnId));
-        List<Task> toBeDeleted = new ArrayList<>(column.getTasks());
-        System.out.println(columnId);
-        System.out.println(column.getTasks());
+        Set<Long> toBeDeleted = column.getTasks().stream().map(Task::getTaskId).collect(Collectors.toCollection(LinkedHashSet::new));
+//        taskRepository.deleteTaskByTaskIdIn(toBeDeleted);
+//        column.setTasks(tasks);
         return column.getTasks();
 
     }

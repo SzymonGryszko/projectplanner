@@ -1,5 +1,6 @@
 package com.gryszkoszymon.projectplanner.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
@@ -18,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long taskId;
     private String title;
     @OneToMany(fetch = LAZY, cascade = CascadeType.ALL)
@@ -31,7 +33,24 @@ public class Task {
     private TaskStatus taskStatus;
     @OneToMany(fetch = LAZY, cascade = CascadeType.ALL)
     private List<CheckList> checkLists;
-    @ManyToOne
-    private Column parentColumn;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "col_id")
+    @JsonBackReference
+    private Column parentCol;
 
+    public Task(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task )) return false;
+        return taskId != null && taskId.equals(((Task) o).getTaskId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
