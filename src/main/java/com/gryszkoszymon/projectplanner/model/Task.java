@@ -31,5 +31,7 @@ public class Task {
     private TaskStatus taskStatus;
     @OneToMany(fetch = LAZY, cascade = CascadeType.ALL)
     private List<CheckList> checkLists;
+    @ManyToOne
+    private Column parentColumn;
 
 }

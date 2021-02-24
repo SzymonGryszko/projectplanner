@@ -16,8 +16,15 @@ public class ColumnController {
     private final ColumnService columnService;
 
     @PostMapping("column/{columnId}/add-task")
-    public Set<Task> createNewTask(@PathVariable long columnId, @RequestBody String taskTitle) throws NotFoundException {
+    public Set<Task> createNewTask(@PathVariable Long columnId, @RequestBody String taskTitle) throws NotFoundException {
         return columnService.createNewTask(columnId, taskTitle);
+    }
+
+    @PostMapping("column/{columnId}/update-set")
+    public Set<Task> updateTasksSetAfterDrop(@PathVariable Long columnId, @RequestBody Set<Task> tasks) throws NotFoundException {
+        System.out.println("test " + columnId);
+        return columnService.updateTasksSetAfterDrop(columnId, tasks);
+
     }
 
 }

@@ -23,7 +23,7 @@ public class Column {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ColId;
     private String title;
-    @OneToMany(fetch = EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = EAGER, cascade = CascadeType.ALL, mappedBy = "parentColumn")
     private Set<Task> tasks;
 
 }

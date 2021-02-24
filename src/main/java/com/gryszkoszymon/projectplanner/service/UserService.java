@@ -31,6 +31,7 @@ public class UserService {
         Column columnToDo = new Column();
         columnToDo.setTitle("To Do");
         columnToDo.setTasks(new LinkedHashSet<>(Arrays.asList(task)));
+        task.setParentColumn(columnToDo);
 
         Column columnInProgress = new Column();
         columnInProgress.setTitle("In Progress");
